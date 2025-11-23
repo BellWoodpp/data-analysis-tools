@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1760857953553,
+      "tag": "20251019071233_wealthy_prima",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1760884405360,
+      "tag": "20251019143325_certain_triathlon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760884480453,
+      "tag": "20251019143440_zippy_zuras",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1760971494194,
+      "tag": "20251020144454_purple_bastion",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1761022202408,
+      "tag": "20251021045002_optimal_miek",
+      "breakpoints": true
+    }
+  ]
+}
