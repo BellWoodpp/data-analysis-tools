@@ -5,6 +5,7 @@ import { db } from "@/lib/db/client";
 import { blogs } from "@/lib/db/schema/blogs";
 import { eq, and } from "drizzle-orm";
 
+// slug:漂亮的名字
 interface BlogDetailPageProps {
   params: Promise<{
     locale: string;

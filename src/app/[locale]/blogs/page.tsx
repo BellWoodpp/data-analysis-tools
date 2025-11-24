@@ -5,18 +5,23 @@ import { db } from "@/lib/db/client";
 import { blogs } from "@/lib/db/schema/blogs";
 import { eq, and, desc } from "drizzle-orm";
 
+
+// interface:接口，生成一个Promise,不进行赋值，之后会调用。
 interface LocaleBlogsPageProps {
   params: Promise<{
     locale: string;
   }>;
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function LocaleBlogsPage({ params }: LocaleBlogsPageProps) {
   // 处理路由参数
   const resolvedParams = await params;
-  const locale = resolvedParams.locale;
-  
+  const { locale } = resolvedParams  
+
   // 验证locale是否有效
+  // 箭头函数 => 就是其中的意思
   const normalizedLocale = locales.find((l) => l === locale);
   
   if (!normalizedLocale) {
@@ -26,6 +31,7 @@ export default async function LocaleBlogsPage({ params }: LocaleBlogsPageProps) 
   const dictionary = getDictionary(normalizedLocale);
   
   // 在服务器端获取博客数据
+
   const blogPosts = await db
     .select()
     .from(blogs)
