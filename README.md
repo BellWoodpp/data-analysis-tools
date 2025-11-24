@@ -483,3 +483,4 @@ For issues, questions, or suggestions, please open an issue on GitHub.
 ---
 
 **Built with ❤️ using Next.js**
+# kill prisma warning forever Mon Nov 24 13:54:13 CST 2025
