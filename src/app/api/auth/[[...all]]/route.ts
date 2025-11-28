@@ -1,3 +1,4 @@
+console.log("BETTER AUTH ROUTE LOADED SUCCESSFULLY!!!");
 // 从 better-auth 包的 next-js 子模块里导入一个工具函数 toNextJsHandler
 // 这个函数的作用是：把你创建的 Better Auth 实例（auth）转换成符合 Next.js App Router 规范的 Route Handler
 // （即支持 GET、POST、PUT 等方法的 handler）
