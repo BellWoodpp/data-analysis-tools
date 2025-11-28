@@ -50,31 +50,39 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
     }
 
     setMagicStatus("sending");
-    setMagicMessage(null);
+    setMagicMessage("");
 
     try {
-      const response = await authClient.signIn.magicLink({
+      // 改这里！彻底抛弃 authClient，用原生 fetch 调用 Better Auth 自动生成的 API
+    const response = await fetch("/api/auth/magic-link", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         email: magicEmail,
-        callbackURL:
-          typeof window !== "undefined" ? window.location.origin : undefined,
-      });
+        // callbackURL 自动就是当前页面，Better Auth 会智能处理
+        // 你甚至可以不传，它默认就是 window.location.origin
+      }),
+    });
 
-      if (response?.error) {
-        setMagicMessage(
-          response.error.message ?? dictionary.messages.responseError,
-        );
-        setMagicStatus("error");
-      } else {
-        setMagicStatus("sent");
-        setMagicMessage(dictionary.messages.success);
-        setMagicEmail("");
-      }
-    } catch (error) {
-      console.error("[Better Auth] Magic link request failed", error);
+      const data = await response.json();
+
+    if (!response.ok || data.error) {
+      // Better Auth 返回错误时，response.ok 为 false，或有 data.error
+      setMagicMessage(data.error?.message ?? dictionary.messages.responseError);
       setMagicStatus("error");
-      setMagicMessage(dictionary.messages.requestError);
+    } else {
+      setMagicStatus("sent");
+      setMagicMessage(dictionary.messages.success);
+      setMagicEmail("");
     }
-  };
+  } catch (error) {
+    console.error("[Better Auth] Magic link request failed", error);
+    setMagicStatus("error");
+    setMagicMessage(dictionary.messages.requestError);
+  }
+};
 
   const handleSignOut = async () => {
     try {
