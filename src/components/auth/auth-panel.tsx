@@ -87,9 +87,11 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
   return (
     <section className="w-full max-w-md rounded-xl border border-black/10 bg-white p-6 shadow-lg shadow-black/5 dark:border-white/10 dark:bg-black dark:shadow-none">
       <header className="mb-6 space-y-1">
+        {/* 登录 Shipbase */}
         <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
           {dictionary.title}
         </h1>
+        {/* 使用 Better Auth 提供的 Google、GitHub 或 Magic Link 完成身份认证。 */}
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
           {dictionary.description}
         </p>
@@ -97,6 +99,7 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
 
       <div className="space-y-6">
         {isAuthenticated ? (
+          // 如果isAuthenticated是True则显示以下
           <div className="space-y-4 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-500/40 dark:bg-emerald-950/30 dark:text-emerald-100">
             <p className="font-medium">
               {dictionary.signedInAs.replace(
@@ -121,8 +124,10 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
             </button>
           </div>
         ) : (
+          // 如果isAunthenticated是false则显示以下
           <>
             <div className="grid gap-3">
+              {/* google登陆按钮 */}
               <button
                 type="button"
                 onClick={() => handleOAuth("google")}
@@ -133,6 +138,7 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
                   ? dictionary.googleButton.loading
                   : dictionary.googleButton.default}
               </button>
+              {/* Github登陆按钮 */}
               <button
                 type="button"
                 onClick={() => handleOAuth("github")}
@@ -146,21 +152,26 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
             </div>
 
             <div className="space-y-3 border-t border-neutral-200 pt-4 dark:border-neutral-800">
+              {/* 或发送 Magic Link */}
               <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                 {dictionary.magicLinkHeading}
               </p>
+              {/* 带提交按钮的<form> */}
               <form className="space-y-3" onSubmit={handleMagicLink}>
+                {/* 输入邮箱地址 */}
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   {dictionary.emailLabel}
                   <input
                     type="email"
                     value={magicEmail}
                     onChange={(event) => setMagicEmail(event.target.value)}
+                    // 占位符
                     placeholder={dictionary.emailPlaceholder}
                     className="mt-1 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 shadow-sm focus:border-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-500/20 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-neutral-100/10"
                     required
                   />
                 </label>
+                {/* Magic Link提交按钮：发送登录链接 */}
                 <button
                   type="submit"
                   disabled={magicStatus === "sending"}

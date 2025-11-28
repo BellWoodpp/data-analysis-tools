@@ -107,7 +107,7 @@ export function Header() {
                   {dictionary.header.login}
                 </Link>
               </Button>
-              <Button asChild>
+              <Button variant="outline" size="lg" asChild >
                 <Link href={locale === 'en' ? '/signup' : `/${locale}/signup`}>
                   {dictionary.header.signup}
                 </Link>
@@ -169,7 +169,7 @@ export function Header() {
             <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
               <div className="flex items-center gap-2">
                 <a
-                  href="https://github.com/buildnewapp/ShipBase"
+                  href="https://github.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center space-x-2 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800 flex-1"
