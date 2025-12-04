@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 // 它从 Node.js 内置模块 crypto 中导入一个函数：randomUUID()，randomUUID() 的作用：生成一个 随机的 UUID（通用唯一识别码）
 import { randomUUID } from "crypto";
-import { auth } from "@/lib/auth/server";
+import { auth } from "@/lib/auth-server/server";
 // 获取价格配置模块
 import { getPricingConfig } from "@/lib/pricing/i18n-config";
 // 这里用了 type，表示你只是在 TypeScript 里引入一个「类型」，不会被编译到 JavaScript 产物里。一般来说，PricingPeriod 可能是一个联合类型

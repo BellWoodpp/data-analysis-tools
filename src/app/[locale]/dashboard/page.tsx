@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { auth } from "@/lib/auth/server";
+import { auth } from "@/lib/auth-server/auth";
 import { redirect } from "next/navigation";
 import { DashboardPage } from "@/components/dashboard";
 import { getDictionary } from "@/i18n";

@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { User, Crown, LogOut, ShoppingBag, LayoutDashboard, Settings } from "lucide-react";
-import { authClient } from "@/lib/auth/client";
-import { checkAdminStatus } from "@/lib/auth/admin";
+import { authClient } from "@/lib/auth-server/client";
+import { checkAdminStatus } from "@/lib/auth-server/admin";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
@@ -28,7 +28,6 @@ export function UserMenu({ dictionary, locale }: UserMenuProps) {
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   const router = useRouter();
   const session = authClient.useSession();
-  
   const user = session.data?.user;
   const isAuthenticated = Boolean(user);
 

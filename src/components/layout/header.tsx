@@ -8,8 +8,9 @@ import { UserMenu } from "./user-menu";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useLocale } from "@/hooks";
-import { authClient } from "@/lib/auth/client";
+import { authClient } from "@/lib/auth-server/client";
 import { siGithub } from "simple-icons";
+
 
 // role="img" aria-label="GitHub" —— 无障碍访问（Accessibility）
 // viewBox="0 0 24 24" —— 图标的“画布大小”（最最最核心！）
@@ -43,10 +44,10 @@ export function Header() {
         <div className="flex items-center flex-1">
           <Link href={locale === 'en' ? '/' : `/${locale}/`} className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
+              <span className="text-white font-bold text-sm">D</span>
             </div>
             <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-              ShipBase
+              DaTools
             </span>
           </Link>
         </div>
@@ -98,6 +99,8 @@ export function Header() {
           <LanguageSwitcher currentLocale={locale} />
           {/* 主题切换器 */}
           <ThemeSwitcher dictionary={dictionary.header} />
+          {/* 登陆认证 */}
+          {/* 如果isAuthenticated为真则用UserMenu,否则继续显示登陆按钮 */}
           {isAuthenticated ? (
             <UserMenu dictionary={dictionary.header} locale={locale} />
           ) : (

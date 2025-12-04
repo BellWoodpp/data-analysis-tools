@@ -19,9 +19,9 @@ export function HomePage({ dictionary }: HomePageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-blue-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-blue-950">
-      {/* Hero Section with Background */}
+      {/* 英雄部分及背景 */}
       <section className="relative overflow-hidden px-6 py-20 sm:px-10 lg:px-16">
-        {/* Background Gradient */}
+        {/* 背景梯度 */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 dark:from-blue-600/30 dark:via-purple-600/30 dark:to-pink-600/30" />
           <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] bg-cover bg-center opacity-10" />
@@ -29,10 +29,12 @@ export function HomePage({ dictionary }: HomePageProps) {
         
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
+            {/* 2025🚀 最新更新 */}
             <Badge variant="secondary" className="mb-6 text-sm font-semibold">
               {home.badgeLabel}
             </Badge>
             
+            {/* "数据分析工具" */}
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-6xl lg:text-7xl">
               {home.heroTitle }
             </h1>

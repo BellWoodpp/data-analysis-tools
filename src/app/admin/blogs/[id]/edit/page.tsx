@@ -1,7 +1,7 @@
 import { BlogEditor } from "@/components/admin";
 import { getDictionary } from "@/i18n";
-import { auth } from "@/lib/auth/server";
-import { isAdmin } from "@/lib/auth/admin";
+import { auth } from "@/lib/auth-server/server";
+import { isAdmin } from "@/lib/auth-server/admin";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 

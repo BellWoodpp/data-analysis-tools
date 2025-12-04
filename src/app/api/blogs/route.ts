@@ -8,7 +8,7 @@ import { db } from "@/lib/db/client";
 import { blogs } from "@/lib/db/schema/blogs";
 // 导入前面你用 Better Auth（或其他认证库如 Lucia、NextAuth v5 等）创建的服务器端 auth 实例。
 // 通常会提供一个 auth() 或 getSession() 方法来获取当前登录用户。
-import { auth } from "@/lib/auth/server";
+import { auth } from "@/lib/auth-server/auth";
 // Drizzle ORM 提供的查询构建器函数：
 // eq(column, value) → WHERE column = value
 // desc(column) → ORDER BY column DESC

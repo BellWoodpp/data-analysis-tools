@@ -39,6 +39,7 @@ export function Footer({ dictionary, currentLocale }: FooterProps) {
     }
   };
 
+  
   return (
     <footer className="bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

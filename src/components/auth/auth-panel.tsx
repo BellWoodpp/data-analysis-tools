@@ -1,10 +1,13 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-
-import { authClient } from "@/lib/auth/client";
+// 认证控制板
+import { FormEvent, useState, useRef, useEffect } from "react";
+import { authClient } from "@/lib/auth-server/client";
 import { RichTextContent } from "@/components/i18n/rich-text";
 import type { AuthPanelDictionary } from "@/i18n";
+import MagicLinkButton from "@/components/ui/magic-link-button"
+
+
 
 type OAuthProvider = "google" | "github";
 
@@ -25,6 +28,7 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
 
   const isAuthenticated = Boolean(session.data?.user);
 
+  // 认证处理
   const handleOAuth = (provider: OAuthProvider) => {
     setPendingProvider(provider);
     void authClient
@@ -40,54 +44,8 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
         setPendingProvider(null);
       });
   };
-
-  const handleMagicLink = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!magicEmail) {
-      setMagicMessage(dictionary.messages.emptyEmail);
-      setMagicStatus("error");
-      return;
-    }
-
-    setMagicStatus("sending");
-    setMagicMessage("");
-
-    try {
-      // 改这里！彻底抛弃 authClient，用原生 fetch 调用 Better Auth 自动生成的 API
-    const response = await fetch("/api/auth/magic-link", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: magicEmail,
-        // callbackURL 自动就是当前页面，Better Auth 会智能处理
-        // 你甚至可以不传，它默认就是 window.location.origin
-      }),
-    });
-    // 加这三行！！
-    console.log("Status:", response.status);
-    console.log("Status Text:", response.statusText);
-    console.log("Response Body:", await response.text()); // 看真实返回了什么！
-
-      const data = await response.json();
-
-    if (!response.ok || data.error) {
-      // Better Auth 返回错误时，response.ok 为 false，或有 data.error
-      setMagicMessage(data.error?.message ?? dictionary.messages.responseError);
-      setMagicStatus("error");
-    } else {
-      setMagicStatus("sent");
-      setMagicMessage(dictionary.messages.success);
-      setMagicEmail("");
-    }
-  } catch (error) {
-    console.error("[Better Auth] Magic link request failed", error);
-    setMagicStatus("error");
-    setMagicMessage(dictionary.messages.requestError);
-  }
-};
-
+  
+  // 处理登出
   const handleSignOut = async () => {
     try {
       await authClient.signOut();
@@ -169,7 +127,7 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
                 {dictionary.magicLinkHeading}
               </p>
               {/* 带提交按钮的<form> */}
-              <form className="space-y-3" onSubmit={handleMagicLink}>
+              <form className="space-y-3">
                 {/* 输入邮箱地址 */}
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   {dictionary.emailLabel}
@@ -184,15 +142,11 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
                   />
                 </label>
                 {/* Magic Link提交按钮：发送登录链接 */}
-                <button
-                  type="submit"
-                  disabled={magicStatus === "sending"}
-                  className="inline-flex w-full items-center justify-center rounded-md bg-neutral-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
-                >
-                  {magicStatus === "sending"
-                    ? dictionary.magicLinkButton.loading
-                    : dictionary.magicLinkButton.default}
-                </button>
+                <MagicLinkButton
+                  dictionary={dictionary}
+                  magicEmail={magicEmail}
+                  setMagicMessage={setMagicMessage}
+                />
               </form>
               {magicMessage ? (
                 <p
@@ -214,4 +168,3 @@ export function AuthPanel({ dictionary }: AuthPanelProps) {
     </section>
   );
 }
-

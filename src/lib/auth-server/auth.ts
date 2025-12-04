@@ -1,6 +1,8 @@
+// 服务端
+
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
-import { magicLink } from "better-auth/plugins/magic-link";
+import { magicLink } from "better-auth/plugins";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/lib/db/client";
 
@@ -44,7 +46,7 @@ if (Object.keys(socialProviders).length === 0) {
 }
 
 export const auth = betterAuth({
-  appName: "Shipbase",
+  appName: "宝可梦",
   baseURL: appBaseURL,
   basePath: "/api/auth",
   secret: process.env.BETTER_AUTH_SECRET,
@@ -58,13 +60,14 @@ export const auth = betterAuth({
   plugins: [
     nextCookies(),
     magicLink({
-      sendMagicLink: async ({ email, url }) => {
+      sendMagicLink: async ({ email, url, token }, ctx) => {
+        
         if (process.env.MAGIC_LINK_WEBHOOK_URL) {
           try {
             await fetch(process.env.MAGIC_LINK_WEBHOOK_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ email, url }),
+              body: JSON.stringify({ email, url, token }),
             });
           } catch (error) {
             console.error(

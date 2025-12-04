@@ -1,8 +1,8 @@
 import { BlogsList } from "@/components/admin";
 import { getDictionary } from "@/i18n";
-import { auth } from "@/lib/auth/server";
+import { auth } from "@/lib/auth-server/server";
 // 你给我查一下，现在登录的这个人，到底是不是管理员？
-import { isAdmin } from "@/lib/auth/admin";
+import { isAdmin } from "@/lib/auth-server/admin";
 // 重定向
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";

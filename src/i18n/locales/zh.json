@@ -1,8 +1,8 @@
 {
   "home": {
-    "badgeLabel": "2025🚀 立即发布",
-    "heroTitle": "ShipBase，发布更多。",
-    "heroDescription": "ShipBase 是一个用于构建 AI SaaS 初创公司的 NextJS 模板。通过多种模板和组件快速发布。",
+    "badgeLabel": "2025🔥 最新更新",
+    "heroTitle": "数据分析工具",
+    "heroDescription": "DaTools 是一个数据分析工具的发布中心，用于发布最新最前沿的数据分析工具。",
     "ctaPrimary": "立即开始",
     "ctaSecondary": "阅读文档",
     "watchDemo": "观看演示",
@@ -228,7 +228,7 @@
     "finalCtaSecondary": "阅读文档"
   },
   "authPanel": {
-    "title": "登录 Shipbase",
+    "title": "登录 DaTools",
     "description": "使用 Better Auth 提供的 Google、GitHub 或 Magic Link 完成身份认证。",
     "signedInAs": "已登录为 {name}",
     "sessionLabel": "会话 ID: {id}",
