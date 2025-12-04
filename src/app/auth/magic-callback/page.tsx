@@ -21,7 +21,6 @@ export default async function MagicCallback({
   try {
     await authClient.signIn.magicLink({
       email,
-      token,
       callbackURL: '/'
     });
   } catch (err) {
