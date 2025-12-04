@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OrderService } from "@/lib/orders/service";
-import { auth } from "@/lib/auth-server/server";
+import { auth } from "@/lib/auth-server/auth";
 
 /**
  * 处理支付成功回调

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/client";
 import { blogs } from "@/lib/db/schema/blogs";
-import { auth } from "@/lib/auth-server/server";
+import { auth } from "@/lib/auth-server/auth";
 import { eq } from "drizzle-orm";
 
 // GET /api/blogs/[id] - 获取单个博客
