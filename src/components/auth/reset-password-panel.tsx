@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +34,7 @@ export function ResetPasswordPanel({
   const [pendingReset, setPendingReset] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [sendCooldown, setSendCooldown] = useState(0);
 
   const resetHref = useMemo(
     () => (locale === "en" ? "/reset-password" : `/${locale}/reset-password`),
@@ -55,9 +56,46 @@ export function ResetPasswordPanel({
     return value.length >= 8 && hasLetter && hasNumber;
   };
 
+  // 读取并维护 60s 冷却（刷新仍生效）
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const key = `resetCooldownUntil_${locale}`;
+    const restore = () => {
+      const stored = window.localStorage.getItem(key);
+      if (!stored) {
+        setSendCooldown(0);
+        return;
+      }
+      const expiresAt = Number(stored);
+      const now = Date.now();
+      const seconds = Math.max(0, Math.ceil((expiresAt - now) / 1000));
+      setSendCooldown(seconds);
+    };
+    restore();
+    const timer = window.setInterval(() => {
+      setSendCooldown((prev) => {
+        if (prev <= 1) return 0;
+        return prev - 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [locale]);
+
+  const startSendCooldown = () => {
+    if (typeof window === "undefined") return;
+    const key = `resetCooldownUntil_${locale}`;
+    const expiresAt = Date.now() + 60_000;
+    window.localStorage.setItem(key, String(expiresAt));
+    setSendCooldown(60);
+  };
+
   const handleRequestLink = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (pendingSend) return;
+    if (sendCooldown > 0) {
+      setError(`请 ${sendCooldown} 秒后再试。`);
+      return;
+    }
     setMessage(null);
     setError(null);
 
@@ -82,6 +120,7 @@ export function ResetPasswordPanel({
         throw new Error(data.message || "发送重置邮件失败，请稍后重试。");
       }
       setMessage("重置邮件已发送，请前往邮箱点击链接设置新密码。");
+      startSendCooldown();
     } catch (err) {
       setError((err as Error)?.message ?? "发送失败，请稍后再试。");
     } finally {
@@ -251,10 +290,14 @@ export function ResetPasswordPanel({
           <CardFooter className="flex-col gap-2 px-0">
             <Button
               type="submit"
-              disabled={pendingSend}
+              disabled={pendingSend || sendCooldown > 0}
               className="w-full bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-70 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
             >
-              {pendingSend ? "发送中..." : "发送重置链接"}
+              {pendingSend
+                ? "发送中..."
+                : sendCooldown > 0
+                  ? `请 ${sendCooldown}s 后重试`
+                  : "发送重置链接"}
             </Button>
             <Button
               type="button"

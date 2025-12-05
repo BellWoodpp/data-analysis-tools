@@ -6,6 +6,7 @@ import { magicLink } from "better-auth/plugins";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/lib/db/client";
 import { Resend } from "resend";
+import { genericOAuth } from "better-auth/plugins/generic-oauth";
 
 // 声明常量appBaseURL
 const appBaseURL =
@@ -26,6 +27,8 @@ const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 const githubClientId = process.env.GITHUB_CLIENT_ID;
 const githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+const xClientId = process.env.X_CLIENT_ID;
+const xClientSecret = process.env.X_CLIENT_SECRET;
 
 const socialProviders = {
   ...(googleClientId && googleClientSecret
@@ -43,6 +46,29 @@ const socialProviders = {
           clientSecret: githubClientSecret,
           scope: ["read:user", "user:email"],
         },
+      }
+    : {}),
+  ...(xClientId && xClientSecret
+    ? {
+        x: genericOAuth({
+          config: [
+            {
+              providerId: "x",
+              authorizationUrl: "https://twitter.com/i/oauth2/authorize",
+              tokenUrl: "https://api.twitter.com/2/oauth2/token",
+              userInfoUrl: "https://api.twitter.com/2/users/me",
+              clientId: xClientId,
+              clientSecret: xClientSecret,
+              scopes: ["tweet.read", "users.read", "offline.access", "email"],
+              mapProfileToUser: (raw) => ({
+                id: raw?.data?.id,
+                name: raw?.data?.name ?? "",
+                email: raw?.data?.email,
+                image: raw?.data?.profile_image_url,
+              }),
+            },
+          ],
+        }),
       }
     : {}),
 } satisfies NonNullable<

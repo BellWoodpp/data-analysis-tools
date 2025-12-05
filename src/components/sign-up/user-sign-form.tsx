@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -20,15 +20,53 @@ export default function UserSignForm({ locale = "en" }: UserSignFormProps) {
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [cooldown, setCooldown] = useState(0);
 
   const loginHref = useMemo(
     () => (locale === "en" ? "/login" : `/${locale}/login`),
     [locale],
   );
 
+  // 读取并维护 60s 冷却（刷新后仍有效）
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const key = `signupCooldownUntil_${locale}`;
+    const restore = () => {
+      const stored = window.localStorage.getItem(key);
+      if (!stored) {
+        setCooldown(0);
+        return;
+      }
+      const expiresAt = Number(stored);
+      const now = Date.now();
+      const seconds = Math.max(0, Math.ceil((expiresAt - now) / 1000));
+      setCooldown(seconds);
+    };
+    restore();
+    const timer = window.setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) return 0;
+        return prev - 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [locale]);
+
+  const startCooldown = () => {
+    if (typeof window === "undefined") return;
+    const key = `signupCooldownUntil_${locale}`;
+    const expiresAt = Date.now() + 60_000;
+    window.localStorage.setItem(key, String(expiresAt));
+    setCooldown(60);
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (pending) return;
+    if (cooldown > 0) {
+      setError(`请 ${cooldown} 秒后再试。`);
+      return;
+    }
 
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
@@ -88,6 +126,7 @@ export default function UserSignForm({ locale = "en" }: UserSignFormProps) {
           "注册成功，但发送验证邮件失败，请稍后在登录页使用邮箱获取魔法链接。",
         );
       }
+      startCooldown();
     } catch (err) {
       const msg = (err as Error)?.message ?? "注册失败，请稍后重试。";
       setError(msg);
@@ -171,13 +210,17 @@ export default function UserSignForm({ locale = "en" }: UserSignFormProps) {
           ) : null}
         </CardContent>
         <CardFooter className="flex flex-col gap-3 px-0">
-          <Button
-            type="submit"
-            disabled={pending}
-            className="w-full bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-70 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
-          >
-            {pending ? "注册中..." : "注册"}
-          </Button>
+            <Button
+              type="submit"
+              disabled={pending || cooldown > 0}
+              className="w-full bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-70 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+            >
+              {pending
+                ? "注册中..."
+                : cooldown > 0
+                  ? `请 ${cooldown}s 后再试`
+                  : "注册"}
+            </Button>
           <Button
             type="button"
             variant="ghost"
