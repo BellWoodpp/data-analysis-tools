@@ -113,10 +113,6 @@ export const auth = betterAuth({
                   <a href="${url}" style="display: inline-block; background: #111; color: #fff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 16px;">
                     ${buttonText}
                   </a>
-                  <p style="color: #777; font-size: 13px; margin-top: 24px;">
-                    或复制此链接：<br/>
-                    <span style="word-break: break-all; color: #111;">${url}</span>
-                  </p>
                   <p style="color: #999; font-size: 12px; margin-top: 24px;">
                     该链接 15 分钟内有效
                   </p>

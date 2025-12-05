@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { AuthPanel } from "@/components/auth/auth-panel";
 import { getDictionary, locales } from "@/i18n";
+import { CardDemo } from "@/components/login/login-card";
 
 interface LocaleLoginPageProps {
   params: Promise<{
@@ -37,7 +37,7 @@ export default async function LocaleLoginPage({ params }: LocaleLoginPageProps) 
             </p>
           </div>
           
-          <AuthPanel dictionary={dictionary.authPanel} />
+          <CardDemo />
         </div>
       </div>
     </div>

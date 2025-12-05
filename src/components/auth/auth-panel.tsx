@@ -1,7 +1,7 @@
 "use client";
 
 // 认证控制板
-import { FormEvent, useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { authClient } from "@/lib/auth-server/client";
 import { RichTextContent } from "@/components/i18n/rich-text";
 import type { AuthPanelDictionary } from "@/i18n";
