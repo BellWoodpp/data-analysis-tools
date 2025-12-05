@@ -114,3 +114,11 @@ role: 用户的角色（权限等级）
 RSC:  通常指 React Server Components
 useEffect: useEffect 就是让你在“函数组件里执行副作用操作”的地方。
 x! :   “我（开发者）向 TypeScript 发誓：x 绝对不是 null 也不是 undefined！”
+bigint: 一个庞大的数据库
+POST: HTTP 请求方法 POST,邮政，定义一个处理 POST 请求的路由处理函数
+429: 稍等下
+Retry-After： “请等一会儿再来试”
+prompt = 就是你丢给 AI 的一句话 / 一段话
+中文最最最贴切的翻译就是：“提示词” 或 “你给我干活的指令”
+fetch(): 发一个 HTTP 请求
+method: 方法

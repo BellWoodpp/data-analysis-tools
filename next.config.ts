@@ -13,6 +13,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/auth/magic-callback',
+        destination: '/',
+        permanent: false,
+      },
+      {
+        source: '/auth/magic-callback/:path*',
+        destination: '/',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

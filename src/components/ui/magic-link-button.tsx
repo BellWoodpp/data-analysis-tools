@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+'use client'
+
+import { useState, useRef, useEffect, useCallback } from "react";
 
 
 interface MagicLinkButtonProps {
@@ -20,38 +22,15 @@ export default function MagicLinkButton({
   magicEmail,
   setMagicStatus,
   setMagicMessage,
-  userId,
 }: MagicLinkButtonProps ) {
+
   const [countdown, setCountdown] = useState(0); // 倒计时秒数，0 表示可点击
   const [isPending, setIsPending] = useState(false); // 真正请求中的 loading
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // 关键：组件挂载时就去后端问“我现在能不能发？”（防 F5 刷新）
-  useEffect(() => {
-    const checkCooldown = async () => {
-      if (!userId) return; // 未登录不查
-
-      try {
-        const res = await fetch("/api/send-magic-link", {
-          method: "HEAD", // 或者新建一个 /api/check-cooldown 接口
-          headers: { "X-Check-Cooldown": "true" },
-        });
-
-        if (res.status === 429) {
-          const retryAfter = Number(res.headers.get("Retry-After") || "60");
-          setCountdown(Math.max(1, retryAfter));
-          startCountdown(retryAfter);
-        }
-      } catch {
-        // 网络错误也无所谓，不影响主流程
-      }
-    };
-
-    checkCooldown();
-  }, [userId]);
 
   // 开始倒计时
-  const startCountdown = (seconds = 60) => {
+  const startCountdown = useCallback((seconds = 60) => {
     if (timerRef.current) clearInterval(timerRef.current);
     setCountdown(seconds);
 
@@ -65,11 +44,38 @@ export default function MagicLinkButton({
         return prev - 1;
       });
     }, 1000);
-  };
+  },[])
+
+    // 页面加载即问后端，这个倒计时是否在冷却？
+  useEffect(() => {
+    const checkCooldown = async () => {
+      const email = magicEmail?.trim();
+      const search = email ? `?email=${encodeURIComponent(email)}` : "";
+      try {
+        const res = await fetch(`/api/send-magic-link${search}`, {
+          method: "HEAD",
+          headers: { "X-Check-Cooldown": "true" },
+          cache: "no-store",
+        });
+        if (res.status === 429) {
+          const retryAfter = Number(res.headers.get("Retry-After") || "60");
+          const seconds = Math.max(1, retryAfter);
+          setCountdown(seconds);
+          startCountdown(seconds);
+          setMagicStatus?.("idle");
+          setMagicMessage?.(`请 ${seconds} 秒后重试`);
+        }
+      } catch {
+      }
+    };
+    checkCooldown();
+  }, [magicEmail, setMagicMessage, setMagicStatus, startCountdown]);
+
 
   // 清理定时器，防止内存泄漏
   useEffect(() => {
-    return () => timerRef.current && clearInterval(timerRef.current);
+    return () => 
+      timerRef.current && clearInterval(timerRef.current);
   }, []);
 
   // 处理发送魔法链接
@@ -95,43 +101,41 @@ export default function MagicLinkButton({
     setMagicStatus?.("sending");
 
 
-    try {
-      const res = await fetch("/api/send-magic-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: magicEmail.trim(), userId }),
-      });
-
-   
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        // 429 是后端返回的“冷却中”
-        if (res.status === 429 && data.retryAfter) {
-          setCountdown(data.retryAfter);
-          startCountdown(data.retryAfter);
-          setMagicStatus?.("idle");
-          setMagicMessage?.(`请 ${data.retryAfter} 秒后重试`);
-          return;
-        }
-        throw new Error(data.message || "发送失败");
+  try {
+    const res = await fetch("/api/send-magic-link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: magicEmail.trim() }),
+    });
+    
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      // 429 是后端返回的“冷却中”
+      if (res.status === 429 && data.retryAfter) {
+        setCountdown(data.retryAfter);
+        startCountdown(data.retryAfter);
+        setMagicStatus?.("idle");
+        setMagicMessage?.(`请 ${data.retryAfter} 秒后重试`);
+        return;
       }
-      
-      // 成功
-      setMagicStatus?.("success");
-      setMagicMessage?.("魔法链接已发送，请查收邮件！");
-      // 可选：成功提示
-      // toast.success("魔法链接已发送！");
-    } catch (err: any) {
-      setMagicStatus?.("error");
-      setMagicMessage?.(err.message || "发送失败，请稍后重试");
-      console.error(err);
-    } finally {
-      setIsPending(false);
-      // 成功 or 失败都开始倒计时，防止刷接口
-      startCountdown();
+      throw new Error(data.message || "发送失败");
     }
-  };
+    
+    // 成功
+    setMagicStatus?.("success");
+    setMagicMessage?.("魔法链接已发送，请查收邮件！");
+    // 可选：成功提示
+    // toast.success("魔法链接已发送！");
+  } catch (err: any) {
+    setMagicStatus?.("error");
+    setMagicMessage?.(err.message || "发送失败，请稍后重试");
+    console.error(err);
+  } finally {
+    setIsPending(false);
+    // 成功 or 失败都开始倒计时，防止刷接口
+    startCountdown();
+  }
+};
 
   // 按钮文字逻辑
   const buttonText = countdown > 0 
