@@ -5,10 +5,8 @@
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@/app/globals.css";
+import "./globals.css";
 import { Header, FooterWrapper } from "@/components/layout";
-
-
 
 // 声明常量geistSans
 const geistSans = Geist({
@@ -26,6 +24,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ShipBase - Enable secure sign-in methods for Shipbase",
   description: "Integrate Google and GitHub OAuth plus Magic Link email sign-in through Better Auth. Sessions stay on the server and automatically sync via HTTP-only cookies.",
+  icons: {
+    icon: "https://datools.org/data-a-tools.ico",
+    shortcut: "https://datools.org/data-a-tools.ico",
+    apple: "https://datools.org/data-a-tools.png",
+  },
 };
 
 // 暴露默认函数RootLayout

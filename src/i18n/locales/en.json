@@ -227,6 +227,150 @@
     "finalCtaButton": "Get ShipBase",
     "finalCtaSecondary": "Read Document"
   },
+  "homeFeed": {
+    "heading": "Trending Data Analysis Tools",
+    "subheading": "Data Analysis Tools · Today",
+    "submitLabel": "Submit a tool",
+    "ctaLogin": "Log in / Sign up",
+    "ctaSubscribe": "Subscribe",
+    "viewDetailsLabel": "View details",
+    "visitSiteLabel": "Visit site",
+    "collectionsTitle": "Curated collections",
+    "latestTitle": "Latest",
+    "categories": [
+      {
+        "title": "BI / Visualization",
+        "items": ["Tableau", "Power BI", "Looker", "Qlik", "Metabase", "Superset", "Redash", "Klipfolio", "Mode", "Sigma", "ThoughtSpot", "Looker Studio", "Lightdash"]
+      },
+      {
+        "title": "Product Analytics",
+        "items": ["Amplitude", "Mixpanel", "Heap", "PostHog", "Pendo", "FullStory", "June", "LogRocket", "Smartlook"]
+      },
+      {
+        "title": "ETL / ELT & Integration",
+        "items": ["Fivetran", "Airbyte", "Stitch", "Hevo", "Matillion", "Segment", "RudderStack", "N8n", "Tray.io", "Workato", "Zapier"]
+      },
+      {
+        "title": "Warehouse / Lake",
+        "items": ["Snowflake", "BigQuery", "Redshift", "Databricks", "ClickHouse", "DuckDB", "MotherDuck", "Firebolt"]
+      },
+      {
+        "title": "Notebook / Collaborative Analytics",
+        "items": ["Hex", "Observable", "Deepnote", "Jupyter / VS Code", "Polynote"]
+      },
+      {
+        "title": "Experimentation / Attribution",
+        "items": ["Optimizely", "VWO", "AB Tasty", "Statsig", "GrowthBook", "Convert", "Split.io"]
+      },
+      {
+        "title": "Data Quality / Governance",
+        "items": ["Monte Carlo", "Bigeye", "Great Expectations", "dbt tests", "Castor", "Collibra", "Alation"]
+      },
+      {
+        "title": "ML / AutoML / AI Assistants",
+        "items": ["DataRobot", "H2O.ai", "SageMaker", "Vertex AI", "Databricks AutoML", "Built-in ML (Power BI / BigQuery)", "GPT-style SQL/vis assistants"]
+      },
+      {
+        "title": "Open Source / Self-hosted",
+        "items": ["Airflow", "Dagster", "Prefect", "dbt", "Superset", "Metabase", "Airbyte", "Great Expectations", "PostHog"]
+      }
+    ],
+    "tools": [
+      {
+        "name": "InsightFlow",
+        "summary": "AI-powered visualization, charts in 10 seconds",
+        "tags": ["Visualization", "AI assistant", "SaaS"],
+        "pricing": "Free trial",
+        "deployment": "Cloud",
+        "link": "#",
+        "votes": 324,
+        "comments": 42,
+        "image": "/api/placeholder/600/360"
+      },
+      {
+        "name": "CubeStack",
+        "summary": "Open-source warehouse with one-click deploy, Postgres compatible",
+        "tags": ["Open source", "Self-hosted", "Warehouse"],
+        "pricing": "OSS / Support",
+        "deployment": "Self-hosted",
+        "link": "#",
+        "votes": 271,
+        "comments": 30,
+        "image": "/api/placeholder/600/360"
+      },
+      {
+        "name": "DataPilot",
+        "summary": "Run SQL with natural language and auto dashboards",
+        "tags": ["BI", "AI SQL", "Visualization"],
+        "pricing": "Free / Pro",
+        "deployment": "Cloud",
+        "link": "#",
+        "votes": 198,
+        "comments": 24,
+        "image": "/api/placeholder/600/360"
+      },
+      {
+        "name": "ETL Forge",
+        "summary": "No-code ETL with 80+ connectors and scheduling",
+        "tags": ["ETL", "No code", "Scheduling"],
+        "pricing": "Free trial",
+        "deployment": "Cloud / Self-hosted",
+        "link": "#",
+        "votes": 156,
+        "comments": 18,
+        "image": "/api/placeholder/600/360"
+      }
+    ],
+    "collections": [
+      {
+        "title": "AI data assistants",
+        "description": "Natural language query and reporting",
+        "link": "#"
+      },
+      {
+        "title": "Open source & self-hosted",
+        "description": "BI / ETL / warehouses you can self host",
+        "link": "#"
+      },
+      {
+        "title": "Team BI",
+        "description": "Sharing, permissions, comments built-in",
+        "link": "#"
+      }
+    ],
+    "latestTools": [
+      {
+        "name": "MetricBoard",
+        "summary": "KPI monitoring and alerts",
+        "tags": ["Monitoring", "Dashboard"],
+        "pricing": "Free / Pro",
+        "deployment": "Cloud",
+        "link": "#",
+        "votes": 68,
+        "comments": 5
+      },
+      {
+        "name": "StreamKit",
+        "summary": "Real-time processing and streaming compute",
+        "tags": ["Streaming", "Real-time"],
+        "pricing": "Open source",
+        "deployment": "Self-hosted",
+        "link": "#",
+        "votes": 54,
+        "comments": 3
+      },
+      {
+        "name": "ChartCraft",
+        "summary": "Low-code chart builder",
+        "tags": ["Visualization", "Low-code"],
+        "pricing": "Free trial",
+        "deployment": "Cloud",
+        "link": "#",
+        "votes": 41,
+        "comments": 2
+      }
+    ]
+  },
   "authPanel": {
     "title": "Sign in to Shipbase",
     "description": "Authenticate with Google, GitHub, or a Magic Link powered by Better Auth.",

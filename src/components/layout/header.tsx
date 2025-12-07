@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { LanguageSwitcher } from "./language-switcher";
 import { ThemeSwitcher } from "./theme-switcher";
@@ -10,6 +11,15 @@ import { Menu, X } from "lucide-react";
 import { useLocale } from "@/hooks";
 import { authClient } from "@/lib/auth-server/client";
 import { siGithub } from "simple-icons";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 
 // role="img" aria-label="GitHub" —— 无障碍访问（Accessibility）
@@ -38,51 +48,94 @@ export function Header() {
   const isAuthenticated = Boolean(session.data?.user);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/80">
+    <header className="sticky top-0 z-50 w-full border-b border-[#0f1f3f]/80 bg-gradient-to-r from-[#0a0f1f]/90 via-[#0c1e3c]/85 to-[#0a0f1f]/90 backdrop-blur-md shadow-[0_6px_30px_-12px_rgba(18,194,233,0.45)]">
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* 首页图标 */}
         <div className="flex items-center flex-1">
           <Link href={locale === 'en' ? '/' : `/${locale}/`} className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">D</span>
-            </div>
-            <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
+            <Image
+              src="https://datools.org/data-a-tools.webp"
+              alt="DaTools"
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-lg object-cover"
+              priority
+            />
+            <span className="text-xl font-bold bg-gradient-to-r from-[#12c2e9] via-[#1e5bff] to-[#f8a13c] bg-clip-text text-transparent">
               DaTools
             </span>
           </Link>
         </div>
 
         {/* 功能特征，价格方案，blog， 文档 */}
-        <nav className="hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2">
-          {/* 功能特征 */}
-          <Link
-            href={locale === 'en' ? '/features' : `/${locale}/features`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
-          >
-            {dictionary.header.features}
-          </Link>
-          {/* 价格方案 */}
-          <Link
-            href={locale === 'en' ? '/pricing' : `/${locale}/pricing`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
-          >
-            {dictionary.header.pricing}
-          </Link>
-          {/* blog */}
-          <Link
-            href={locale === 'en' ? '/blogs' : `/${locale}/blogs`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
-          >
-            Blog
-          </Link>
-          {/* 文档 */}
-          <Link
-            href={locale === 'en' ? '/docs' : `/${locale}/docs`}
-            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
-          >
-            {dictionary.header.docs}
-          </Link>
-        </nav>
+        <NavigationMenu className="hidden md:flex absolute left-1/2 -translate-x-1/2">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="text-slate-100/90">
+                {dictionary.header.features}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[260px] gap-2 p-2">
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href={locale === 'en' ? '/features' : `/${locale}/features`}
+                        className="block rounded-md bg-[#0f172a]/60 p-3 text-sm text-slate-100 hover:bg-[#1e5bff]/20"
+                      >
+                        {dictionary.header.features}
+                        <p className="mt-1 text-xs text-slate-400">
+                          产品核心能力与优势概览
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="text-slate-100/90">
+                {dictionary.header.pricing}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[260px] gap-2 p-2">
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href={locale === 'en' ? '/pricing' : `/${locale}/pricing`}
+                        className="block rounded-md bg-[#0f172a]/60 p-3 text-sm text-slate-100 hover:bg-[#1e5bff]/20"
+                      >
+                        {dictionary.header.pricing}
+                        <p className="mt-1 text-xs text-slate-400">
+                          查看方案、套餐与计费
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link
+                  href={locale === 'en' ? '/blogs' : `/${locale}/blogs`}
+                  className={navigationMenuTriggerStyle({ className: "text-slate-100/90" })}
+                >
+                  Blog
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link
+                  href={locale === 'en' ? '/docs' : `/${locale}/docs`}
+                  className={navigationMenuTriggerStyle({ className: "text-slate-100/90" })}
+                >
+                  {dictionary.header.docs}
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
 
         {/* Github 语言选择 明亮选择 登陆 免费试用 */}
         <div className="hidden md:flex items-center space-x-2 flex-1 justify-end">
@@ -90,7 +143,7 @@ export function Header() {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
+            className="inline-flex items-center justify-center rounded-md border border-[#1e5bff]/40 bg-[#0f1f3f] px-3 py-2 text-sm font-medium text-slate-100 shadow-sm transition hover:border-[#12c2e9] hover:bg-[#0c1e3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#12c2e9]"
             aria-label="GitHub"
           >
             <GithubIcon />
@@ -105,12 +158,16 @@ export function Header() {
             <UserMenu dictionary={dictionary.header} locale={locale} />
           ) : (
             <>
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" className="text-slate-100 hover:text-[#f8a13c]" asChild>
                 <Link href={locale === 'en' ? '/login' : `/${locale}/login`}>
                   {dictionary.header.login}
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" asChild >
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-[#12c2e9] to-[#1e5bff] text-white shadow-[0_10px_30px_-12px_rgba(30,91,255,0.65)] hover:from-[#1e5bff] hover:to-[#12c2e9]"
+                asChild
+              >
                 <Link href={locale === 'en' ? '/signup' : `/${locale}/signup`}>
                   {dictionary.header.signup}
                 </Link>
@@ -133,12 +190,12 @@ export function Header() {
 
       {/* 移动端导航 */}
       {isMenuOpen && (
-        <div className="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
+        <div className="md:hidden border-t border-[#0f1f3f] bg-[#0a0f1f]">
           <div className="px-4 py-6 space-y-4">
             {/* 功能特性 */}
             <Link
               href={locale === 'en' ? '/features' : `/${locale}/features`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className="block text-sm font-medium text-slate-100/80 hover:text-[#12c2e9] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               {dictionary.header.features}
@@ -146,7 +203,7 @@ export function Header() {
             {/* 价格方案 */}
             <Link
               href={locale === 'en' ? '/pricing' : `/${locale}/pricing`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className="block text-sm font-medium text-slate-100/80 hover:text-[#12c2e9] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               {dictionary.header.pricing}
@@ -154,7 +211,7 @@ export function Header() {
             {/* blog */}
             <Link
               href={locale === 'en' ? '/blogs' : `/${locale}/blogs`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className="block text-sm font-medium text-slate-100/80 hover:text-[#12c2e9] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Blog
@@ -162,20 +219,20 @@ export function Header() {
             {/* 文档 */}
             <Link
               href={locale === 'en' ? '/docs' : `/${locale}/docs`}
-              className="block text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+              className="block text-sm font-medium text-slate-100/80 hover:text-[#12c2e9] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               {dictionary.header.docs}
             </Link>
             
             {/* 移动端切换按钮 */}
-            <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+            <div className="pt-4 border-t border-[#0f1f3f]">
               <div className="flex items-center gap-2">
                 <a
                   href="https://github.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center space-x-2 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800 flex-1"
+                  className="inline-flex items-center justify-center space-x-2 rounded-md border border-[#1e5bff]/40 bg-[#0f1f3f] px-3 py-2 text-sm font-medium text-slate-100 shadow-sm transition hover:border-[#12c2e9] hover:bg-[#0c1e3c] flex-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <GithubIcon />

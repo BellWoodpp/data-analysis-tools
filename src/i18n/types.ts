@@ -56,6 +56,43 @@ export interface StatItem {
   description: string;
 }
 
+export interface HomeFeedTool {
+  name: string;
+  summary: string;
+  tags: string[];
+  pricing: string;
+  deployment: string;
+  link: string;
+  votes: number;
+  comments: number;
+  image?: string;
+}
+
+export interface HomeFeedCollection {
+  title: string;
+  description: string;
+  link: string;
+}
+
+export interface HomeFeedDictionary {
+  heading: string;
+  subheading: string;
+  submitLabel: string;
+  ctaLogin: string;
+  ctaSubscribe: string;
+  viewDetailsLabel: string;
+  visitSiteLabel: string;
+  collectionsTitle: string;
+  latestTitle: string;
+  tools: HomeFeedTool[];
+  collections: HomeFeedCollection[];
+  latestTools: HomeFeedTool[];
+  categories?: {
+    title: string;
+    items: string[];
+  }[];
+}
+
 export interface FAQItem {
   question: string;
   answer: string;
@@ -1034,6 +1071,7 @@ export interface AppDictionary {
   header: HeaderDictionary;
   footer: FooterDictionary;
   pages: PagesDictionary;
+  homeFeed?: HomeFeedDictionary;
 }
 
 export type PartialAppDictionary = DeepPartial<AppDictionary>;

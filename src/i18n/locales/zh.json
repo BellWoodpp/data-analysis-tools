@@ -227,6 +227,105 @@
     "finalCtaButton": "获取 ShipBase",
     "finalCtaSecondary": "阅读文档"
   },
+  "homeFeed": {
+    "heading": "热门数据分析工具导航",
+    "subheading": "Data Analysis Tools · 今日精选",
+    "submitLabel": "提交新工具",
+    "ctaLogin": "登录 / 注册",
+    "ctaSubscribe": "订阅更新",
+    "viewDetailsLabel": "查看详情",
+    "visitSiteLabel": "访问官网",
+    "collectionsTitle": "精选合集",
+    "latestTitle": "最新上架",
+    "categories": [
+      {
+        "title": "BI / 可视化",
+        "items": ["Tableau", "Power BI", "Looker", "Qlik", "Metabase", "Superset", "Redash", "Klipfolio", "Mode", "Sigma", "ThoughtSpot", "Looker Studio", "Lightdash"]
+      },
+      {
+        "title": "埋点 / 产品分析",
+        "items": ["Amplitude", "Mixpanel", "Heap", "PostHog", "Pendo", "FullStory", "June", "LogRocket", "Smartlook"]
+      },
+      {
+        "title": "ETL / ELT 与集成",
+        "items": ["Fivetran", "Airbyte", "Stitch", "Hevo", "Matillion", "Segment", "RudderStack", "N8n", "Tray.io", "Workato", "Zapier"]
+      },
+      {
+        "title": "数据仓库 / 数据湖",
+        "items": ["Snowflake", "BigQuery", "Redshift", "Databricks", "ClickHouse", "DuckDB", "MotherDuck", "Firebolt"]
+      },
+      {
+        "title": "笔记本 / 协作分析",
+        "items": ["Hex", "Observable", "Deepnote", "Jupyter / VS Code", "Polynote"]
+      },
+      {
+        "title": "实验 / 归因",
+        "items": ["Optimizely", "VWO", "AB Tasty", "Statsig", "GrowthBook", "Convert", "Split.io"]
+      },
+      {
+        "title": "数据质量 / 治理",
+        "items": ["Monte Carlo", "Bigeye", "Great Expectations", "dbt tests", "Castor", "Collibra", "Alation"]
+      },
+      {
+        "title": "ML / AutoML / AI 助手",
+        "items": ["DataRobot", "H2O.ai", "SageMaker", "Vertex AI", "Databricks AutoML", "内置 ML（Power BI / BigQuery）", "GPT 类 SQL/可视化助手"]
+      },
+      {
+        "title": "开源 / 自建组件",
+        "items": ["Airflow", "Dagster", "Prefect", "dbt", "Superset", "Metabase", "Airbyte", "Great Expectations", "PostHog"]
+      }
+    ],
+    "tools": [],
+    "collections": [
+      {
+        "title": "AI 数据助理",
+        "description": "用自然语言完成查询与报表",
+        "link": "#"
+      },
+      {
+        "title": "开源自托管精选",
+        "description": "可私有部署的 BI / ETL / 仓库",
+        "link": "#"
+      },
+      {
+        "title": "团队协作 BI",
+        "description": "内置分享、权限与评论的可视化工具",
+        "link": "#"
+      }
+    ],
+    "latestTools": [
+      {
+        "name": "MetricBoard",
+        "summary": "KPI 监控与告警",
+        "tags": ["监控", "Dashboard"],
+        "pricing": "免费 / Pro",
+        "deployment": "云端",
+        "link": "#",
+        "votes": 68,
+        "comments": 5
+      },
+      {
+        "name": "StreamKit",
+        "summary": "实时数据处理与流式计算",
+        "tags": ["流式", "实时"],
+        "pricing": "开源",
+        "deployment": "自托管",
+        "link": "#",
+        "votes": 54,
+        "comments": 3
+      },
+      {
+        "name": "ChartCraft",
+        "summary": "低代码图表构建器",
+        "tags": ["可视化", "低代码"],
+        "pricing": "免费试用",
+        "deployment": "云端",
+        "link": "#",
+        "votes": 41,
+        "comments": 2
+      }
+    ]
+  },
   "authPanel": {
     "title": "登录 DaTools",
     "description": "使用 Better Auth 提供的 Google、GitHub 或 Magic Link 完成身份认证。",
